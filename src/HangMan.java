@@ -81,6 +81,7 @@ public class HangMan {
                 break;
             }
 
+
             // print current answer line,
             System.out.println(HangManWordArr);
             // ask for input
