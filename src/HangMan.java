@@ -8,6 +8,7 @@ public class HangMan {
         // boolean's for game
         boolean gameEnd = false;
 
+
         // Create Array for the rows
         Map<Integer, ArrayList> HangManDrawingContainer = new TreeMap<>();
         for (int i = 1; i < 9; i++) {
