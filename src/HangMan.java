@@ -3,7 +3,6 @@ import java.util.*;
 import java.util.random.RandomGenerator;
 
 public class HangMan {
-
     public static void main(String[] args) {
         // boolean's for game
         boolean gameEnd = false;
@@ -11,13 +10,13 @@ public class HangMan {
 
         // Create Array for the rows
         Map<Integer, ArrayList> HangManDrawingContainer = new TreeMap<>();
-        for (int i = 1; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             // create an arraylist to hold each row
             HangManDrawingContainer.put(i, new ArrayList<Character>());
         }
 
         // Set up each row with spaces as default
-        for (int i = 1; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             // Access the ArrayList and add eight blank entries
             for (int j = 0; j < 8; j++) {
                 HangManDrawingContainer.get(i).add(' ');
@@ -59,15 +58,15 @@ public class HangMan {
         String answer = wordList.get(rando.nextInt(0, wordList.size()));
 
         // test print
-//        System.out.print("Answer: ");
-//        System.out.println(answer);
+        System.out.print("Answer: ");
+        System.out.println(answer);
 
         // map for word
         ArrayList<Character> HangManWordArr = new ArrayList<>();
 
         for (int i = 0; i < answer.length(); i++) {
             HangManWordArr.add('_');
-        };
+        }
         // test print
         System.out.println(HangManWordArr);
 
@@ -76,6 +75,12 @@ public class HangMan {
 
             // start game loop
         while (lives > 0) {
+            // check if they have got the word?
+            if (!HangManWordArr.contains('_')) {
+                System.out.println("Congratulations you win!");
+                break;
+            }
+
             // print current answer line,
             System.out.println(HangManWordArr);
             // ask for input
@@ -93,10 +98,17 @@ public class HangMan {
                 // get the indecies of every instance of that letter
                 ArrayList<Integer> updateIndecies = new ArrayList<>();
                 // loop thru to check for all instances
-                for (int index = answer.indexOf(firstChar); index >= 0; index = answer.indexOf(firstChar, index+1)) {
-                        // append the index to the arrayList
-                        updateIndecies.add(index);
-                    }
+                for (int index = answer.toLowerCase().indexOf(firstChar); index < answer.length(); index = answer.indexOf(firstChar, index+1)) {
+                    // debug print
+                    System.out.println("Index:" + index);
+                         if (index != -1) {
+                            // append the index to the arrayList
+                            updateIndecies.add(index);
+                            // break condition
+                        } else {
+                            break;
+                        }
+                }
                 // replace the values at the indicies of HangManWordArr
                 for (int index : updateIndecies) {
                     HangManWordArr.set(index, firstChar);
@@ -106,7 +118,7 @@ public class HangMan {
             // else draw a hang man line and decrement lives
                 System.out.println("Sorry, that's missing, you've lost a life");
                 lives--;
-                System.out.println(String.format("Lives remaining %s", lives));
+                System.out.printf("Lives remaining %s%n", lives);
             }
         }
     }
