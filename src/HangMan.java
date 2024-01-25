@@ -67,25 +67,46 @@ public class HangMan {
         for (int i = 0; i < answer.length(); i++) {
             HangManWordArr.add('_');
         };
-
         // test print
         System.out.println(HangManWordArr);
 
+        // Lives to control game loop
+        int lives = 10;
 
-        
-        
-
-        // print hash map state
-
-        // print underlines
-
-        // start game loop (while loop, condition boolean lose/win
-
+            // start game loop
+        while (lives > 0) {
+            // print current answer line,
+            System.out.println(HangManWordArr);
             // ask for input
-
-            // check if it matches any of the letters
-                // if yes fill those letters out
-                // else draw a hang man line
-
+            Scanner guessInput = new Scanner(System.in);
+            System.out.println("Guess a letter: ");
+            String guess = guessInput.nextLine();
+            Character firstChar = guess.toLowerCase().charAt(0);
+            // check if it matches any of the letters already in the HangManWordArr
+            if (HangManWordArr.contains(firstChar)) {
+                System.out.println("You've already got that letter try again.");
+                continue;
+            } else if (answer.toLowerCase().contains(firstChar.toString())) {
+            // if yes fill those letters out
+                System.out.println("Good guess");
+                // get the indecies of every instance of that letter
+                ArrayList<Integer> updateIndecies = new ArrayList<>();
+                // loop thru to check for all instances
+                for (int index = answer.indexOf(firstChar); index >= 0; index = answer.indexOf(firstChar, index+1)) {
+                        // append the index to the arrayList
+                        updateIndecies.add(index);
+                    }
+                // replace the values at the indicies of HangManWordArr
+                for (int index : updateIndecies) {
+                    HangManWordArr.set(index, firstChar);
+                }
+                continue;
+            } else {
+            // else draw a hang man line and decrement lives
+                System.out.println("Sorry, that's missing, you've lost a life");
+                lives--;
+                System.out.println(String.format("Lives remaining %s", lives));
+            }
+        }
     }
 }
